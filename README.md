@@ -1,6 +1,6 @@
-# Gestion Bancaire
+# Gestion Bancaire (Diagramme de classe)
 
-
+https://lucid.app/lucidchart/1641caf8-9e32-489e-bb64-5d1e2e90bf8d/edit?viewport_loc=-1747%2C-273%2C4153%2C1786%2C0_0&invitationId=inv_0a12c4f3-6b15-4dca-9966-786d967a6f71
 
 ## Name
 Application Java pour gérer les simulations et demandes de crédits.
