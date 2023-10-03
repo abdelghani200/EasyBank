@@ -2,6 +2,8 @@ package org.example.Dto;
 
 
 
+import lombok.Data;
+
 import java.time.LocalDate;
 
 
