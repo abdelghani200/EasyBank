@@ -52,7 +52,18 @@ public class ImAgence implements IAgence {
     }
 
     @Override
-    public int delete(Agence agence) {
+    public int delete(String code) {
+        String ageceSql = "delete from gestion_bancaire.agence whre code = ?";
+        try{
+            PreparedStatement statement = connection.prepareStatement(ageceSql);
+            statement.setString(1, code);
+            int delete = statement.executeUpdate();
+            if (delete == 0){
+                throw new AgenceException("Error de supprission.");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return 0;
     }
 

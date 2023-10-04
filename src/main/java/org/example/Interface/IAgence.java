@@ -10,7 +10,7 @@ public interface IAgence {
     Optional<Agence> save(Agence agence) throws AgenceException;
     Optional<Agence> update(Agence agence);
     Optional<Agence> findByAdresse(String adresse);
-    int delete(Agence agence);
+    int delete(String code);
     Optional<Agence> findByCode(String code);
 
 

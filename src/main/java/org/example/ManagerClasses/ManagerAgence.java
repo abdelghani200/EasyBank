@@ -21,6 +21,7 @@ public class ManagerAgence {
             System.out.println("\nMenu Agence:");
             System.out.println("1. Créer une agence");
             System.out.println("2.Retour au menu principal");
+            System.out.println("3. Delete une agence");
             System.out.println("Entrez votre choix :");
 
             choix = scanner.nextInt();
@@ -30,7 +31,9 @@ public class ManagerAgence {
                 case 1:
                     createAgence();
                     break;
-                case 2:
+                case 3:
+                    deleteAgence();
+                case 5:
                     return;
                 default:
                     System.out.println("choix invalide");
@@ -61,6 +64,17 @@ public class ManagerAgence {
             System.out.println("Erreur lors de la création de l'agence : " + e.getMessage());
         }
 
+    }
+
+    public void deleteAgence() {
+        System.out.println("Entrer le code de l'agence que vous souhaitez supprimer :");
+        String code = scanner.nextLine();
+        try {
+            serviceAgence.deleteAgence(code);
+            System.out.println("L'agence a été supprimée avec succès.");
+        } catch (AgenceException e) {
+            System.out.println("Erreur lors de la suppression de l'agence : " + e.getMessage());
+        }
     }
 
 

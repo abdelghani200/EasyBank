@@ -27,5 +27,20 @@ public class ServiceAgence {
         }
     }
 
+    public void deleteAgence(String code) throws AgenceException {
+        try {
+            if (code == null) {
+                throw new AgenceException("Votre code est Null");
+            } else if (agenceService.delete(code) == 1) {
+                System.out.println("Agence deleted avec binajah.");
+            }
+        } catch (AgenceException e) {
+            System.err.println("Une exception AgenceException s'est produite : " + e.getMessage());
+        }
+    }
+
+
+
+
 
 }
