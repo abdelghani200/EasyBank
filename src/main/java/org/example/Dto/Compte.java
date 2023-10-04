@@ -19,6 +19,8 @@ public abstract class Compte {
 
     List<Operation> operationList;
 
+    protected Agence agence;
+
 
     public Compte(int id, String numero, double solde, LocalDate dateCreation, TypeCompte status) {
         setId(id);
@@ -96,6 +98,13 @@ public abstract class Compte {
         this.operationList = operationList;
     }
 
+    public Agence getAgence() {
+        return agence;
+    }
+
+    public void setAgence(Agence agence) {
+        this.agence = agence;
+    }
 
     @Override
     public String toString() {

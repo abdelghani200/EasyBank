@@ -13,7 +13,9 @@ public class Employe extends Personne{
     private List<Compte> compteArrayList = new ArrayList<>();
     private List<Client> clientArrayList = new ArrayList<>();
     private List<Operation> operationArrayList = new ArrayList<>();
-    private List<Mission> missionList;
+    private List<MissionDetails> missionDetailsList;
+
+    private Agence agence;
 
 
     public Employe(int id,String nom, String prenom, String telephone, LocalDate dateNaissance, String matricule, LocalDate dateRecrutement, String adresseEmail) {
@@ -56,12 +58,12 @@ public class Employe extends Personne{
     }
 
 
-    public List<Mission> getMissionList() {
-        return missionList;
+    public List<MissionDetails> getMissionDetailsList() {
+        return missionDetailsList;
     }
 
-    public void setMissionList(List<Mission> missionList) {
-        this.missionList = missionList;
+    public void setMissionDetailsList(List<MissionDetails> missionDetailsList) {
+        this.missionDetailsList = missionDetailsList;
     }
 
     @Override
