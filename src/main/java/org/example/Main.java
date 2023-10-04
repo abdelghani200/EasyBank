@@ -62,8 +62,10 @@ public class Main {
                         break;
                     case 5:
                         managerOperation.startOperation();
+                        break;
                     case 6:
                         managerAgence.startAgenceMenu();
+                        break;
                     case 0:
                         System.out.println("Au revoir !");
                         break;

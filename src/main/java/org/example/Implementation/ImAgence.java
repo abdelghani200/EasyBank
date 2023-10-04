@@ -7,7 +7,10 @@ import org.example.Interface.IAgence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ImAgence implements IAgence {
@@ -41,14 +44,37 @@ public class ImAgence implements IAgence {
 
     }
 
-    @Override
     public Optional<Agence> update(Agence agence) {
-        return Optional.empty();
+        String agenceSql = "UPDATE gestion_bancaire.agence " +
+                "SET nom = ?, adresse = ?, telephone = ? " +
+                "WHERE code = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(agenceSql);
+            statement.setString(1, agence.getNom());
+            statement.setString(2, agence.getAdresse());
+            statement.setString(3, agence.getTelephone());
+            statement.setString(4, agence.getCode());
+
+            int rowrUpdate = statement.executeUpdate();
+
+            if (rowrUpdate == 1) {
+                return Optional.of(agence);
+            } else {
+                return Optional.empty();
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Agence> findByAdresse(String adresse) {
-        return Optional.empty();
+        List<Agence> agences = getAllAgences();
+        return agences.stream()
+                .filter(agence -> agence.getAdresse().equalsIgnoreCase(adresse))
+                .findFirst();
     }
 
     @Override
@@ -69,6 +95,31 @@ public class ImAgence implements IAgence {
 
     @Override
     public Optional<Agence> findByCode(String code) {
-        return Optional.empty();
+        List<Agence> agences = getAllAgences();
+
+        return agences.stream()
+                .filter(agence -> agence.getCode().equalsIgnoreCase(code))
+                .findFirst();
     }
+
+    private List<Agence> getAllAgences() {
+        String sql = "select * from gestion_bancaire.agence";
+        List<Agence> agences = new ArrayList<>();
+        try (PreparedStatement statement =connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()){
+            while (resultSet.next()) {
+                Agence agence = new Agence();
+                agence.setCode(resultSet.getString("code"));
+                agence.setNom(resultSet.getString("nom"));
+                agence.setAdresse(resultSet.getString("adresse"));
+                agence.setTelephone(resultSet.getString("telephone"));
+                agences.add(agence);
+            }
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return agences;
+    }
+
 }

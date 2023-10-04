@@ -2,6 +2,7 @@ package org.example.Services;
 
 import org.example.Dto.Agence;
 import org.example.Exception.AgenceException;
+import org.example.Implementation.ImAgence;
 import org.example.Interface.IAgence;
 
 import java.util.Optional;
@@ -39,6 +40,14 @@ public class ServiceAgence {
         }
     }
 
+
+    public Optional<Agence> findAgenceByAdresse(String adresse) {
+        return agenceService.findByAdresse(adresse);
+    }
+
+    public Optional<Agence> findAgenceByCode(String code) {
+        return agenceService.findByCode(code);
+    }
 
 
 
