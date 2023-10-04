@@ -40,6 +40,34 @@ public class ServiceAgence {
         }
     }
 
+    public void updateAgence(Agence updatedAgence) {
+        try {
+            if (updatedAgence == null)
+                throw new AgenceException("Agence est vide!");
+
+            Optional<Agence> existingAgence = agenceService.findByCode(updatedAgence.getCode());
+
+            if (existingAgence.isPresent()) {
+
+                Agence agenceToUpdate = existingAgence.get();
+                agenceToUpdate.setNom(updatedAgence.getNom());
+                agenceToUpdate.setTelephone(updatedAgence.getTelephone());
+                agenceToUpdate.setAdresse(updatedAgence.getAdresse());
+
+                Optional<Agence> updatedOptionalAgence = agenceService.update(agenceToUpdate);
+
+                if (updatedOptionalAgence.isPresent()) {
+                    //System.out.println("Agence mise à jour avec succès.");
+                } else {
+                    throw new AgenceException("Erreur lors de la mise à jour de l'agence : l'opération de sauvegarde a échoué.");
+                }
+            } else {
+                throw new AgenceException("L'agence à mettre à jour n'a pas été trouvée.");
+            }
+        } catch (AgenceException e) {
+            // Gérer l'exception ou la journaliser si nécessaire
+        }
+    }
 
     public Optional<Agence> findAgenceByAdresse(String adresse) {
         return agenceService.findByAdresse(adresse);

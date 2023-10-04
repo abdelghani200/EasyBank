@@ -46,7 +46,7 @@ public class ManagerAgence {
                     findAgenceByCode();
                     break;
                 case 6:
-                    //findAgenceByAdresse();
+                    findAgenceByAdresse();
                     break;
                 case 0:
                     return;
@@ -93,6 +93,7 @@ public class ManagerAgence {
     }
 
 
+
     public void findAgenceByCode() {
         System.out.println("Entrer le code de l'agence que vous souhaitez rechercher :");
         String code =scanner.nextLine();
@@ -105,6 +106,16 @@ public class ManagerAgence {
         }
     }
 
+    public void findAgenceByAdresse() {
+        System.out.println("Entrer l'adresse de l'agence que vous souhaitez rechercher :");
+        String adresse = scanner.nextLine();
+        Optional<Agence> agence = serviceAgence.findAgenceByAdresse(adresse);
+        if (agence.isPresent()) {
+            System.out.println("Agence trouvée : " + agence.get());
+        } else {
+            System.out.println("Aucune agence trouvee.");
+        }
+    }
 
 
 
