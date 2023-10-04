@@ -43,6 +43,44 @@ public class ImAffecterEmploye implements IAffecterEmploye {
         return Optional.empty();
     }
 
+    @Override
+    public List<AffecterEmploye> getHistoriqueAffectation(Employe employe) {
+        List<AffecterEmploye> historiqueAffs = new ArrayList<>();
+        String sql = "select * from gestion_bancaire.transfers where employe_matricule = ?";
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, employe.getMatricule());
+            try(ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()){
+                    AffecterEmploye affecterEmploye = new AffecterEmploye();
+                    affecterEmploye.setTransfert_id(resultSet.getInt("transfert_id"));
+                    affecterEmploye.setTransfert_date(resultSet.getDate("transfert_date").toLocalDate());
+                    affecterEmploye.setEmploye_matricule(resultSet.getInt("employe_matricule"));
+                    affecterEmploye.setAgence_code(resultSet.getString("agence_code"));
+
+                    historiqueAffs.add(affecterEmploye);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return historiqueAffs;
+    }
+
+    @Override
+    public boolean deleteAffectation() {
+        boolean delete = false;
+        String sql = "delete from gestion_bancaire";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            int rows = statement.executeUpdate();
+            if (rows > 0){
+                delete = true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return delete;
+    }
 
 
 
