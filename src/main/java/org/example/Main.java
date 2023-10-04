@@ -1,7 +1,10 @@
 package org.example;
 
 import org.example.Db.DatabaseConnection;
+import org.example.Implementation.ImAgence;
+import org.example.Interface.IAgence;
 import org.example.ManagerClasses.*;
+import org.example.Services.ServiceAgence;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,6 +19,9 @@ public class Main {
         ManagerCompte compteManager = new ManagerCompte(scanner);
         ManagerMission managerMission = new ManagerMission(scanner);
         ManagerOperation managerOperation = new ManagerOperation(scanner);
+        IAgence agenceService = new ImAgence();
+        ManagerAgence managerAgence = new ManagerAgence(scanner, new ServiceAgence(agenceService));
+
 
         int choix;
         do {
@@ -34,6 +40,7 @@ public class Main {
                 System.out.println("\t\t\t\t\t3. Gérer les comptes");
                 System.out.println("\t\t\t\t\t4. Gérer les missions");
                 System.out.println("\t\t\t\t\t5. Gérer les opérations");
+                System.out.println("\t\t\t\t\t6. Gérer les agences");
                 System.out.println("\t\t\t\t\t0. Quitter");
                 System.out.print("Entrez votre choix : ");
 
@@ -55,6 +62,8 @@ public class Main {
                         break;
                     case 5:
                         managerOperation.startOperation();
+                    case 6:
+                        managerAgence.startAgenceMenu();
                     case 0:
                         System.out.println("Au revoir !");
                         break;
