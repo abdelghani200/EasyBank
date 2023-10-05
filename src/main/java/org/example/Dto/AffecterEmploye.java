@@ -10,6 +10,6 @@ import java.time.LocalDate;
 public class AffecterEmploye {
     private int transfert_id;
     private LocalDate transfert_date;
-    private Integer employe_matricule;
-    private String agence_code;
+    private Employe employe;
+    private Agence agence;
 }

@@ -40,7 +40,7 @@ public class ManagerAgence {
                     deleteAgence();
                     break;
                 case 4:
-                    //updateAgence();
+                    updateAgence();
                     break;
                 case 5:
                     findAgenceByCode();
@@ -92,7 +92,39 @@ public class ManagerAgence {
         }
     }
 
+    public void updateAgence() {
+        System.out.println("Entrer le code de l'agence que vous souhaitez modifier :");
+        String code = scanner.nextLine();
 
+        Optional<Agence> optionalAgence = serviceAgence.findAgenceByCode(code);
+
+        if (optionalAgence.isPresent()) {
+            Agence agence = optionalAgence.get();
+
+            System.out.println("Nom actuel de l'agence : " + agence.getNom());
+            System.out.println("Entrez le nouveau nom : ");
+            String newName = scanner.nextLine();
+            System.out.println("Adresse actuel de l'agence : " + agence.getAdresse());
+            System.out.println("Entrez le nouveau adresse : ");
+            String newAdresse = scanner.nextLine();
+            System.out.println("Telephone actuel de l'agence : " + agence.getTelephone());
+            System.out.println("Entrez le nouveau telephone : ");
+            String newTelephone = scanner.nextLine();
+
+            agence.setNom(newName);
+            agence.setAdresse(newAdresse);
+            agence.setTelephone(newTelephone);
+
+            try {
+                serviceAgence.updateAgence(agence);
+                //System.out.println("Agence mise à jour avec succès.");
+            } catch (Exception e) {
+                System.out.println("Erreur lors de la mise à jour de l'agence : " + e.getMessage());
+            }
+        } else {
+            System.out.println("Agence introuvable.");
+        }
+    }
 
     public void findAgenceByCode() {
         System.out.println("Entrer le code de l'agence que vous souhaitez rechercher :");

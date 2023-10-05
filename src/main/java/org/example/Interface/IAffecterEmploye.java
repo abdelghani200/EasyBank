@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface IAffecterEmploye {
     Optional<AffecterEmploye> affecterEmploye(AffecterEmploye affecterEmploye);
-
+    List<AffecterEmploye> getHistoriqueAffectation(Employe employe);
+    public boolean deleteAffectation();
 }
