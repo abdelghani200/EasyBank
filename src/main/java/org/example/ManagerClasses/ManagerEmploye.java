@@ -1,6 +1,8 @@
 package org.example.ManagerClasses;
 
+import org.example.Dto.Agence;
 import org.example.Dto.Employe;
+import org.example.Implementation.ImAgence;
 import org.example.Implementation.ImEmploye;
 
 import java.sql.Connection;
@@ -22,6 +24,8 @@ public class ManagerEmploye {
 
     public void startEmploye() throws SQLException {
 
+        ImAgence imAgence = new ImAgence();
+
         int choix;
         do {
             System.out.println("Menu:");
@@ -29,6 +33,9 @@ public class ManagerEmploye {
             System.out.println("2. Chercher un employe par matricule");
             System.out.println("3. Supprimer un employe");
             System.out.println("4. Afficher la liste employes");
+            System.out.println("5. Muter un employe");
+            System.out.println("6. Muter un employe");
+            System.out.println("7. Muter un employe");
             System.out.println("0. Quitter");
             System.out.print("Entrez votre choix : ");
 
@@ -61,6 +68,9 @@ public class ManagerEmploye {
                     System.out.println("Entrez telephone du employe : ");
                     String telephone = scanner.nextLine();
 
+                    System.out.println("Entrez code d' agence : ");
+                    String code_agence = scanner.nextLine();
+
 
                     Employe employe = new Employe(nom,prenom,dateNaissance,telephone,matricule,adresseEmail,dateRecrutement);
 
@@ -71,6 +81,9 @@ public class ManagerEmploye {
                     employe.setTelephone(telephone);
                     employe.setDateNaissance(dateNaissance);
                     employe.setDateRecrutement(dateRecrutement);
+                    Agence agence = new Agence();
+                    agence.setCode(code_agence);
+                    employe.setAgence(agence);
 
                     imEmploye.save(employe);
 
@@ -198,6 +211,39 @@ public class ManagerEmploye {
                         System.out.println(employe.toString());
                     } else {
                         System.out.println("Aucun client trouvé avec le code : " + cleRecherche);
+                    }
+                    break;
+                case 7:
+                    System.out.println("Matricule de l'employe qui va muter : ");
+                    String matriculeMuter = scanner.nextLine();
+
+                    System.out.println("Code de la nouvelle agence : ");
+                    String codeAgence = scanner.nextLine();
+
+                    Optional<Employe> employeOptional1 = imEmploye.findByMatricule(matriculeMuter);
+
+                    if (employeOptional1.isPresent()) {
+                        Employe employe1 = employeOptional1.get();
+
+                        Optional<Agence> agenceOptional = imAgence.findByCode(codeAgence);
+
+                        if (agenceOptional.isPresent()) {
+                            Agence nouvelleAgence = agenceOptional.get();
+
+                            employe1.setAgence(nouvelleAgence);
+
+                            Optional<Employe> employeModifie = imEmploye.changeAgence(employe1, codeAgence);
+
+                            if (employeModifie.isPresent()) {
+                                System.out.println("L'employé a été affecté à la nouvelle agence avec succès.");
+                            } else {
+                                System.out.println("Une erreur s'est produite lors de la modification de l'affectation de l'employé.");
+                            }
+                        } else {
+                            System.out.println("La nouvelle agence avec le code '" + codeAgence + "' n'a pas été trouvée.");
+                        }
+                    } else {
+                        System.out.println("L'employé avec le matricule '" + matriculeMuter + "' n'a pas été trouvé.");
                     }
                     break;
                 case 0:

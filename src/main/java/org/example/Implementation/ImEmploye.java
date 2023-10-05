@@ -70,8 +70,8 @@ public class ImEmploye extends ImPersonne<Employe> implements IEmploye {
 
         if (employeOptinal.isPresent()) {
             Personne personne = employeOptinal.get();
-            String insertEmployeQuery = "INSERT INTO gestion_bancaire.Employe (matricule, daterecrutement, adressemail, personne_id) " +
-                    "VALUES (?, ?, ?, ?)";
+            String insertEmployeQuery = "INSERT INTO gestion_bancaire.Employe (matricule, daterecrutement, adressemail, personne_id,agence_code) " +
+                    "VALUES (?, ?, ?, ?, ?)";
 
             try {
                 PreparedStatement employeStatement = connection.prepareStatement(insertEmployeQuery);
@@ -80,6 +80,7 @@ public class ImEmploye extends ImPersonne<Employe> implements IEmploye {
                 employeStatement.setObject(2, employe.getDateRecrutement());
                 employeStatement.setString(3, employe.getAdresseEmail());
                 employeStatement.setInt(4, employe.getId());
+                employeStatement.setString(5, employe.getAgence().getCode());
 
 
                 int employeInserted = employeStatement.executeUpdate();
@@ -89,7 +90,7 @@ public class ImEmploye extends ImPersonne<Employe> implements IEmploye {
                 }
 
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                System.out.println(e.getErrorCode());
             }
         }
 
@@ -270,7 +271,25 @@ public class ImEmploye extends ImPersonne<Employe> implements IEmploye {
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Employe> changeAgence(Employe employe, String code_agence) {
+        String sql = "update gestion_bancaire.employe set agence_code = ? where matricule = ?";
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setString(1, code_agence);
+            statement.setString(2, employe.getMatricule());
 
+            int rowsChanged = statement.executeUpdate();
+
+            if (rowsChanged == 0){
+                throw new Exception("Error!!");
+            }
+            return Optional.of(employe);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
 
 
 }
