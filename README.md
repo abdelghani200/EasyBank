@@ -1,18 +1,24 @@
-# Gestion Bancaire
+# Gestion Bancaire (Diagramme de classe)
 
-
+https://lucid.app/lucidchart/1641caf8-9e32-489e-bb64-5d1e2e90bf8d/edit?viewport_loc=-1747%2C-273%2C4153%2C1786%2C0_0&invitationId=inv_0a12c4f3-6b15-4dca-9966-786d967a6f71
 
 ## Name
-Application Java pour gérer les comptes bancaires.
+Application Java pour gérer les simulations et demandes de crédits.
 
 ## Contexte du projet
 
-EasyBank est une banque prestigieuse qui souhaite une meilleure digitalisation de ses activités.
+Après le test et la mise en préproduction de la première version de l’application de gestion des comptes bancaire.
 
-L'objectif est de développer un module de gestion des comptes de ses clients et leurs transactions.
+EasyBank prépare ses nouveaux besoins.
 
-Il vous est demandé dans un premier temps de proposer un prototype(Release 1), comportant la logique de l'application et une console pour interagir avec l'utilisateur.
+L'objectif est d’alimenter le backlog par les user stories correspondant aux besoins suivants et de les implémenter:
 
-L'application doit être développée avec java sans aucun framework, et de programmer les opérations ORM par vous même.
 
-L'application doit interagir avec une base de données postgresql, que vous allez créer avec un code natif en précisant toutes les règles d'intégrités requises.
+Un compte bancaire appartient à une agence.
+Une agence est caractérisée par un code, nom, adresse, numéro de téléphone.
+Un employé est affecté à une agence.
+Un employé peut être muté d’une agence à une autre(les dates doivent être sauvegardées).
+Le transfert d’argent(virement) est un troisième type de transaction qu’il faut prendre en charge, il est caractérisé par un compte source et destination et un montant.
+Il faut aussi enregistrer le temps de la transaction.
+Une simulation est calculée selon la formule en pièces jointes.
+Une demande de crédit est enregistrée après la validation de la simulation par un employé, elle est caractérisée par: numéro, client, agence, date, état, montant, durée et remarques.

@@ -14,4 +14,6 @@ public interface IEmploye {
     boolean update(Employe employe);
 
     Optional<Employe> findByEmailOrNomOrPrenom(String searchValue);
+
+    Optional<Employe> changeAgence(Employe employe, String code_agence);
 }

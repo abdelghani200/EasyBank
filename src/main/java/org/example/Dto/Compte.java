@@ -16,8 +16,9 @@ public abstract class Compte {
     protected Client client;
     
     protected Employe employe;
-
     List<Operation> operationList;
+
+    protected Agence agence;
 
 
     public Compte(int id, String numero, double solde, LocalDate dateCreation, TypeCompte status) {
