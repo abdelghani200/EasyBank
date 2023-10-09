@@ -95,6 +95,7 @@ public class ImAgence implements IAgence {
 
     @Override
     public Optional<Agence> findByCode(String code) {
+        //fid by code
         List<Agence> agences = getAllAgences();
 
         return agences.stream()
