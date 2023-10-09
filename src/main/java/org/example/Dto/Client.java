@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Client  extends Personne{
+
+    private int id;
     private String code;
     private String adresse;
     List<Compte> compteList;
@@ -12,12 +14,23 @@ public class Client  extends Personne{
 
     public Client(int id, String nom, String prenom, String telephone, LocalDate dateNaissance, String code, String adresse) {
         super(id, nom, prenom, telephone, dateNaissance);
+        setId(id);
         setCode(code);
         setAdresse(adresse);
     }
 
     public Client(){
 
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Client(String code, String adresse) {

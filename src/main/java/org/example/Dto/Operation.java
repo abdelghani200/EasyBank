@@ -7,12 +7,15 @@ import java.util.Date;
 
 public class Operation {
 
-    private String numero;
-    private LocalDate dateCreation;
-    private double montant;
-    private TypeOperation status;
-    private Compte compte;
-    List<Employe> employeList;
+    protected String numero;
+    protected LocalDate dateCreation;
+    protected double montant;
+    protected TypeOperation status;
+
+    protected Employe employe;
+
+    protected Compte compte;
+    protected List<Employe> employeList;
 
     public Operation(String numero, LocalDate dateCreation, double montant, TypeOperation status) {
        setNumero(numero);
@@ -21,6 +24,9 @@ public class Operation {
        setStatus(status);
     }
 
+    public Operation(){
+
+    }
     public String getNumero() {
         return numero;
     }
@@ -51,6 +57,30 @@ public class Operation {
 
     public void setStatus(TypeOperation status) {
         this.status = status;
+    }
+
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
+
+    public Compte getCompte() {
+        return compte;
+    }
+
+    public void setCompte(Compte compte) {
+        this.compte = compte;
+    }
+
+    public List<Employe> getEmployeList() {
+        return employeList;
+    }
+
+    public void setEmployeList(List<Employe> employeList) {
+        this.employeList = employeList;
     }
 
     @Override

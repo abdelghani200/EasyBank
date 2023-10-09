@@ -55,11 +55,18 @@ public class ManagerCompte {
                     String statusInput = scanner.nextLine().trim();
                     TypeCompte status = typeCompteMap.getOrDefault(statusInput, TypeCompte.Active);
 
+                    /*
                     System.out.println("Entrez le numéro du compte : ");
                     String numero = scanner.nextLine();
 
+                     */
+
                     System.out.println("Entrez le solde du compte : ");
                     double solde = scanner.nextDouble();
+
+                    System.out.println("Entrez le code d'agence du compte : ");
+                    String codeAgence = scanner.nextLine();
+                    scanner.nextLine();
 
                     System.out.println("Entrez le jour de création du compte : ");
                     int jour = scanner.nextInt();
@@ -118,24 +125,29 @@ public class ManagerCompte {
                     Client client = new Client(client_id, "", "", "", null, "", "");
                     Employe employe = new Employe(employe_id, "", "", "", null, "", null, "");
 
+                    Agence agence = new Agence();
+                    agence.setCode(codeAgence);
 
                     if ("Courant".equalsIgnoreCase(typecompte)) {
                         System.out.println("Entrez le découvert du compte : ");
                         double decouvert = scanner.nextDouble();
 
 
-                        CompteCourant compteCourant = new CompteCourant(0,numero, solde,dateCreation, status, decouvert );
+                        CompteCourant compteCourant = new CompteCourant(0,"", solde,dateCreation, status,decouvert,agence);
                         compteCourant.setClient(client);
+                        compteCourant.setAgence(agence);
                         compteCourant.setEmploye(employe);
                         imCompeCourant.save(compteCourant);
+
 
                         System.out.println("Compte Courant ajouté avec succès !");
                     } else if ("Epargne".equalsIgnoreCase(typecompte)) {
                         System.out.println("Entrez le taux d'intérêt du compte : ");
                         double tauxInteret = scanner.nextDouble();
 
-                        CompteEpargne compteEpargne = new CompteEpargne(0,numero, solde, dateCreation, status, tauxInteret);
+                        CompteEpargne compteEpargne = new CompteEpargne(0,"", solde, dateCreation, status, tauxInteret);
                         compteEpargne.setClient(client);
+                        compteEpargne.setAgence(agence);
                         compteEpargne.setEmploye(employe);
                         imCompteEpargne.save(compteEpargne);
 
@@ -171,8 +183,6 @@ public class ManagerCompte {
 
                     break;
                 case 4:
-
-
                     System.out.println("Entrez le numéro de compte : ");
                     String numeroCompte = scanner.nextLine();
                     scanner.nextLine();
@@ -205,7 +215,6 @@ public class ManagerCompte {
                     String dateStr = scanner.nextLine();
                     LocalDate dateToUpdate = LocalDate.parse(dateStr);
 
-                    //Compte compteToUpdate = new Compte(0,num, soldeToUpdate, dateToUpdate,null);
                     Compte compteToUpdate = new CompteCourant();
                     compteToUpdate.setNumero(num);
                     compteToUpdate.setSolde(soldeToUpdate);
@@ -269,6 +278,22 @@ public class ManagerCompte {
                                 System.out.println("Numéro de compte : " + compte12.toString());
                             }
                         }
+                    }
+                    break;
+                case 9:
+
+                    System.out.println("Entrer le Id :");
+                    Scanner scanner = new Scanner(System.in);
+                    int id = scanner.nextInt();
+                    scanner.close();
+
+                    Optional<Compte> compteOptional = imCompte.findById(id);
+
+                    if (compteOptional.isPresent()) {
+                        Compte compte1 = compteOptional.get();
+                        System.out.println(compte1.toString());
+                    } else {
+                        System.out.println("Aucun compte trouvé pour cet identifiant.");
                     }
                     break;
                 case 0:

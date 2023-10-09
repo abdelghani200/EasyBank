@@ -17,4 +17,6 @@ public interface IClient{
     boolean update(Client client);
     Optional<Client> findByEmailOrNomOrPrenom(String searchValue);
 
+    Optional<Client> findById(int id);
+
 }

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 public class Simulation {
     private Double capitalEmprunte;
-    private int paiementMensuelNum;
+    private Integer paiementMensuelNum;
     private Double resultatSimulatin;
     private Double paiementMensuel;
     private Employe employe;

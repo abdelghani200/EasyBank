@@ -59,6 +59,46 @@ public class ImClient extends ImPersonne<Client> implements IClient {
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Client> findById(int id) {
+        String sqlFind = "SELECT c.id,c.code, p.nom, p.prenom, p.datenaissance, p.telephone, c.adresse " +
+                "FROM gestion_bancaire.Client c " +
+                "INNER JOIN gestion_bancaire.Personne p ON c.personne_id = p.id " +
+                "WHERE c.id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlFind)) {
+            preparedStatement.setInt(1, id);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String code = resultSet.getString("code");
+                    String nom = resultSet.getString("nom");
+                    String prenom = resultSet.getString("prenom");
+                    LocalDate dateNaissance = resultSet.getDate("datenaissance").toLocalDate();
+                    String adresse = resultSet.getString("adresse");
+                    String telephone = resultSet.getString("telephone");
+
+                    Client client = new Client(code, adresse);
+                    client.setCode(code);
+                    client.setNom(nom);
+                    client.setPrenom(prenom);
+                    client.setDateNaissance(dateNaissance);
+                    client.setAdresse(adresse);
+                    client.setTelephone(telephone);
+
+                    return Optional.of(client);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Optional.empty();
+    }
+
+
+
     public boolean deleteClient(String code) {
         try {
             connection.setAutoCommit(false); // Désactiver la validation automatique

@@ -8,7 +8,7 @@ public class CompteEpargne extends Compte{
     private double tauxInteret;
 
     public CompteEpargne(int id, String numero, double solde, LocalDate dateCreation, TypeCompte status, double tauxInteret) {
-        super(id, numero, solde, dateCreation, status);
+        super(id, numero, solde, dateCreation, status,new Agence());
         setTauxInteret(tauxInteret);
     }
 

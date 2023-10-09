@@ -34,6 +34,7 @@ public class ManageClient {
             System.out.println("4. Afficher un client");
             System.out.println("5. Modifier un client");
             System.out.println("6. Chercher un client par nom ou prenom ou email");
+            System.out.println("7. Chercher un client par id");
             System.out.println("8. retourn");
             System.out.println("0. Quitter");
             System.out.print("Entrez votre choix : ");
@@ -184,6 +185,23 @@ public class ManageClient {
                         System.out.println("Aucun client trouvé avec le code : " + cleRecherche);
                     }
                     break;
+                case 7:
+                    System.out.println("Donner le id du client rechercher : ");
+                    int idRecherche = scanner.nextInt();
+                    Optional<Client> clientTrouve1 = imClient.findById(idRecherche);
+
+                    if (clientTrouve1.isPresent()) {
+                        client = clientTrouve1.get();
+                        System.out.println("Client trouvé : ");
+                        System.out.println("Nom : " + client.getNom());
+                        System.out.println("Prenom : " + client.getPrenom());
+                        System.out.println("Date de Naissance : " + client.getDateNaissance());
+                        System.out.println("Adresse : " + client.getAdresse());
+                    } else {
+                        System.out.println("Aucun client trouvé avec le code : " + idRecherche);
+                    }
+                    break;
+
                 case 8:
                     return;
                 case 0:

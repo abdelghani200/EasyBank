@@ -33,8 +33,8 @@ public class ManagerEmploye {
             System.out.println("2. Chercher un employe par matricule");
             System.out.println("3. Supprimer un employe");
             System.out.println("4. Afficher la liste employes");
-            System.out.println("5. Muter un employe");
-            System.out.println("6. Muter un employe");
+            System.out.println("5. Modifier un employe");
+            System.out.println("6. rechercher un employe");
             System.out.println("7. Muter un employe");
             System.out.println("0. Quitter");
             System.out.print("Entrez votre choix : ");

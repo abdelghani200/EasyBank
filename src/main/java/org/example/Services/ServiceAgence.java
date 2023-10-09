@@ -57,7 +57,7 @@ public class ServiceAgence {
                 Optional<Agence> updatedOptionalAgence = agenceService.update(agenceToUpdate);
 
                 if (updatedOptionalAgence.isPresent()) {
-                    //System.out.println("Agence mise à jour avec succès.");
+
                 } else {
                     throw new AgenceException("Erreur lors de la mise à jour de l'agence : l'opération de sauvegarde a échoué.");
                 }

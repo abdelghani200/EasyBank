@@ -21,21 +21,21 @@ public class ImCompte<T extends Compte> implements ICompte<T> {
     @Override
     public Optional<Compte> save(T compte) {
 
-        String insertCompteQuery = "INSERT INTO gestion_bancaire.Compte (numero, solde, datecreation, status, client_id, employe_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String insertCompteQuery = "INSERT INTO gestion_bancaire.Compte ( solde, datecreation, status, client_id, employe_id,code_agence) " +
+                "VALUES ( ?, ?, ?, ?, ?, ?)";
 
         try {
 
             PreparedStatement compteStatement = connection.prepareStatement(insertCompteQuery, Statement.RETURN_GENERATED_KEYS);
-            compteStatement.setString(1, compte.getNumero());
-            compteStatement.setDouble(2, compte.getSolde());
+            //compteStatement.setString(1, compte.getNumero());
+            compteStatement.setDouble(1, compte.getSolde());
             LocalDate localDate = compte.getDateCreation();
             java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
-            compteStatement.setDate(3, sqlDate);
-            compteStatement.setObject(4, compte.getStatus(), Types.OTHER);
-
-            compteStatement.setInt(5,compte.getEmploye().getId());
-            compteStatement.setInt(6,compte.getClient().getId());
+            compteStatement.setDate(2, sqlDate);
+            compteStatement.setObject(3, compte.getStatus(), Types.OTHER);
+            compteStatement.setInt(4,compte.getEmploye().getId());
+            compteStatement.setInt(5,compte.getClient().getId());
+            compteStatement.setString(6, compte.getAgence().getCode());
 
             int rowsAffected = compteStatement.executeUpdate();
             if (rowsAffected == 1) {
@@ -48,7 +48,7 @@ public class ImCompte<T extends Compte> implements ICompte<T> {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
         return Optional.empty();
@@ -181,7 +181,7 @@ public class ImCompte<T extends Compte> implements ICompte<T> {
         String telephone = resultSet.getString("telephone");
 
         //Compte compte = new Compte(compteId, numero, solde, dateCreation, status);
-        Compte compte = new CompteCourant();
+        Compte compte = new CompteCourant(clientId,numero,solde,dateCreation,status,0,null);
         Client client = new Client(clientId, nom, prenom, telephone, datenaissance, clientCode, clientAdresse);
         Employe employe = new Employe(employeId, nom, prenom, telephone, datenaissance, employeMatricule, daterecrutement, adressemail);
 
@@ -213,6 +213,30 @@ public class ImCompte<T extends Compte> implements ICompte<T> {
         }
 
         return compteInfoMap;
+    }
+
+    public Optional<Compte> findById(int compteId) {
+        String selectCompteQuery = "SELECT c.*, p.*, e.*, cl.* " +
+                "FROM gestion_bancaire.Compte c " +
+                "JOIN gestion_bancaire.Client cl ON c.client_id = cl.id " +
+                "JOIN gestion_bancaire.personne p ON cl.personne_id = p.id " +
+                "LEFT JOIN gestion_bancaire.employe e ON c.employe_id = e.id " +
+                "WHERE c.id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(selectCompteQuery);
+            preparedStatement.setInt(1, compteId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Compte compte = extractCompteFromResultSet(resultSet);
+                return Optional.of(compte);
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Map<LocalDate, List<Compte>> findByDateCreation() {

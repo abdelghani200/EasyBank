@@ -23,17 +23,17 @@ public class ImOperation implements IOperation {
     @Override
     public Optional<Operation> saveOperation(Operation operation) {
 
-        String OperationQuery = "INSERT INTO gestion_bancaire.operation (numero, datecreation, montant, status) VALUES (?, ?, ?, ?)";
+        String OperationQuery = "INSERT INTO gestion_bancaire.operation (numero, montant, status) VALUES (nextval('operation_sequence'), ?, ?)";
 
         try {
             PreparedStatement OperationPreparedStatement = connection.prepareStatement(OperationQuery);
 
-            OperationPreparedStatement.setString(1, operation.getNumero());
-            LocalDate localDate = operation.getDateCreation();
-            java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
-            OperationPreparedStatement.setDate(2, sqlDate);
-            OperationPreparedStatement.setDouble(3, operation.getMontant());
-            OperationPreparedStatement.setObject(4, operation.getStatus(), Types.OTHER);
+            //OperationPreparedStatement.setString(1, operation.getNumero());
+            //LocalDate localDate = operation.getDateCreation();
+            //java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+            //OperationPreparedStatement.setDate(2, sqlDate);
+            OperationPreparedStatement.setDouble(1, operation.getMontant());
+            OperationPreparedStatement.setObject(2, operation.getStatus(), Types.OTHER);
 
             int rowsMissionInserted = OperationPreparedStatement.executeUpdate();
 
@@ -117,7 +117,12 @@ public class ImOperation implements IOperation {
             Operation operation = new Operation(numero, dateCreation, montant, typeOperation);
 
             // Enregistrer le retrait dans la base de données
-            return saveOperation(operation);
+            Optional<Operation> optionalOperation = saveOperation(operation);
+            if (optionalOperation.isPresent()) {
+                return Optional.of(operation);
+            } else {
+                return Optional.empty();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return Optional.empty();
@@ -144,7 +149,12 @@ public class ImOperation implements IOperation {
             TypeOperation typeOperation = TypeOperation.Versement;
             Operation operation = new Operation(numero, dateCreation, montant, typeOperation);
 
-            return saveOperation(operation);
+            Optional<Operation> optionalOperation = saveOperation(operation);
+            if (optionalOperation.isPresent()) {
+                return Optional.of(operation);
+            } else {
+                return Optional.empty();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return Optional.empty();

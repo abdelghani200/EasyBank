@@ -8,6 +8,7 @@ import java.util.List;
 public abstract class Compte {
 
     protected int id;
+
     protected String numero;
     protected double solde;
     protected LocalDate dateCreation;
@@ -20,13 +21,13 @@ public abstract class Compte {
 
     protected Agence agence;
 
-
-    public Compte(int id, String numero, double solde, LocalDate dateCreation, TypeCompte status) {
+    public Compte(int id, String numero, double solde, LocalDate dateCreation, TypeCompte status,Agence agence) {
         setId(id);
         setNumero(numero);
         setSolde(solde);
         setDateCreation(dateCreation);
         setStatus(status);
+        setAgence(agence);
     }
 
     public Compte() {
@@ -65,6 +66,14 @@ public abstract class Compte {
         this.dateCreation = dateCreation;
     }
 
+    public Agence getAgence() {
+        return agence;
+    }
+
+    public void setAgence(Agence agence) {
+        this.agence = agence;
+    }
+
     public TypeCompte getStatus() {
         return status;
     }
@@ -96,6 +105,7 @@ public abstract class Compte {
     public void setOperationList(List<Operation> operationList) {
         this.operationList = operationList;
     }
+
 
 
     @Override

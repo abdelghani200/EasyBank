@@ -63,6 +63,47 @@ public class ImEmploye extends ImPersonne<Employe> implements IEmploye {
 
     }
 
+    public Optional<Employe> findById(int id) {
+        String sqlFind = "SELECT e.matricule, p.nom, p.prenom, p.telephone, p.datenaissance, e.adressemail, e.daterecrutement " +
+                "FROM gestion_bancaire.Employe e " +
+                "INNER JOIN gestion_bancaire.Personne p ON e.personne_id = p.id " +
+                "WHERE e.id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlFind)) {
+            preparedStatement.setInt(1, id);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String matricule = resultSet.getString("matricule");
+                    String nom = resultSet.getString("nom");
+                    String prenom = resultSet.getString("prenom");
+                    String telephone = resultSet.getString("telephone");
+                    LocalDate dateNaissance = resultSet.getDate("datenaissance").toLocalDate();
+                    LocalDate dateRecrutement = resultSet.getDate("daterecrutement").toLocalDate();
+                    String adressemail = resultSet.getString("adressemail");
+
+                    Employe employe = new Employe(matricule, adressemail, dateRecrutement);
+                    employe.setId(id);  // Assurez-vous que la classe Employe a une méthode setId pour définir l'ID.
+                    employe.setMatricule(matricule);
+                    employe.setNom(nom);
+                    employe.setPrenom(prenom);
+                    employe.setTelephone(telephone);
+                    employe.setDateNaissance(dateNaissance);
+                    employe.setAdresseEmail(adressemail);
+                    employe.setDateRecrutement(dateRecrutement);
+
+                    return Optional.of(employe);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Optional.empty();
+    }
+
+
     @Override
     public Optional<Employe> save(Employe employe) {
 
